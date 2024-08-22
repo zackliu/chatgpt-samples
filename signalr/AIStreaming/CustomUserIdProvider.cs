@@ -6,7 +6,7 @@ namespace AIStreaming
     {
         public virtual string GetUserId(HubConnectionContext connection)
         {
-            return connection.GetHttpContext()?.Request.Query["userId"];
+            return connection.GetHttpContext()?.Request.Query["userId"] ?? connection.ConnectionId;
         }
     }
 }
