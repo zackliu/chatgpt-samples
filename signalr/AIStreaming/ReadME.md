@@ -3,7 +3,7 @@
 ## Introduction
 
 In the current landscape of digital communication, AI-powered chatbots and streaming technology have become increasingly popular.
-This project aims to combine these two trends into a seamless group chat application by leveraging SignalR for real-time communication and integrating OpenAI�s ChatGPT.
+This project aims to combine these two trends into a seamless group chat application by leveraging SignalR for real-time communication and integrating ChatGPT.
 This project demonstrates SignalR group chats and ChatGPT integration.
 
 ## Features
@@ -21,7 +21,7 @@ This project demonstrates SignalR group chats and ChatGPT integration.
 
 ### Steps
 
-Edit `appsettings.json` and update the `Endpoint` and `Key` to be the endpoint and key of your Azure OpenAI instance. Find how to  [here](https://learn.microsoft.com/azure/ai-services/openai/chatgpt-quickstart?tabs=command-line%2Cpython-new&pivots=programming-language-csharp#retrieve-key-and-endpoint).
+Edit `appsettings.json` and update the `Endpoint` and `Key` to be the endpoint and key of your Azure OpenAI instance. Find how to get endpoint and key [here](https://learn.microsoft.com/azure/ai-services/openai/chatgpt-quickstart?tabs=command-line%2Cpython-new&pivots=programming-language-csharp#retrieve-key-and-endpoint).
 Update the `model` to your deployment name of Azure OpenAI.
 
 
@@ -34,6 +34,29 @@ dotnet run
 Open your browser and navigate to http://localhost:5000 to see the application in action.
 
 ![chat sample](./images/chat.jpg)
+
+### Use OpenAI instead of Azure OpenAI
+
+You can also use OpenAI instead of Azure OpenAI with some minor changes.
+
+1. Update the `appsettings.json`:
+
+```json
+"OpenAI": {
+    "Endpoint": null, // Leave it null
+    "key": "<key from openai>",
+    "Model": "gpt-4o"
+}
+```
+
+2. Update the `Program.cs`:
+
+```csharp
+builder.Services.AddSingleton<GroupAccessor>()
+                .AddSingleton<GroupHistoryStore>()
+//                .AddAzureOpenAI(builder.Configuration); // Comment this line and add the below line
+                .AddOpenAI(builder.Configuration);
+```
 
 ## How It Works
 
