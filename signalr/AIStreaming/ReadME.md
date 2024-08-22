@@ -69,3 +69,14 @@ When a user sends a message in the chat, it is broadcast to all other members of
 If a message begins with @gpt, the application interprets it as a request to involve the AI chatbot powered by OpenAI.
 
 The application uses the streaming capabilities of OpenAI to progressively send the AI's response back to the client as it is generated. The response is buffered and sent in chunks whenever the accumulated content exceeds a specific length, making the AI interaction feel more responsive.
+
+```mermaid
+sequenceDiagram
+    Client->>+Server: @gpt instructions?
+    Server->>+OpenAI: instruction
+    OpenAI->>Server: Partial Completion data token
+    OpenAI->>Server: Partial Completion data token
+    Server->>Client:Batch Partial Data
+    OpenAI->>-Server: Partial Completion data token
+    Server->>-Client:Batch Partial Data
+```
