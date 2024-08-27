@@ -43,14 +43,14 @@ namespace AIStreaming.Hubs
             if (message.StartsWith("@gpt"))
             {
                 var id = Guid.NewGuid().ToString();
-                var actureMessage = message.Substring(4).Trim();
-                var messagesInludeHistory = _history.GetOrAddGroupHistory(groupName, userName, actureMessage);
+                var actualMessage = message.Substring(4).Trim();
+                var messagesIncludeHistory = _history.GetOrAddGroupHistory(groupName, userName, actualMessage);
                 await Clients.OthersInGroup(groupName).SendAsync("NewMessage", userName, message);
 
                 var chatClient = _openAI.GetChatClient(_options.Model);
                 var totalCompletion = new StringBuilder();
                 var lastSentTokenLength = 0;
-                await foreach (var completion in chatClient.CompleteChatStreamingAsync(messagesInludeHistory))
+                await foreach (var completion in chatClient.CompleteChatStreamingAsync(messagesIncludeHistory))
                 {
                     foreach (var content in completion.ContentUpdate)
                     {
